@@ -619,7 +619,7 @@ inline bool Controller::HandleSensorEvent(SDL_ControllerSensorEvent event)
 			accel_x, accel_y, accel_z, true);
 			chiaki_orientation_tracker_update(
 				&orientation_tracker, state.gyro_x, state.gyro_y, state.gyro_z,
-				accel_x, accel_y, accel_z, &accel_zero, false, event.timestamp * 1000);
+				accel_x, accel_y, accel_z, &accel_zero, false, (event.timestamp_us ? event.timestamp_us : event.timestamp * 1000ULL));
 			break;
 		case SDL_SENSOR_GYRO:
 			gyro_x = event.data[0];
@@ -627,12 +627,12 @@ inline bool Controller::HandleSensorEvent(SDL_ControllerSensorEvent event)
 			gyro_z = event.data[2];
 			chiaki_orientation_tracker_update(
 				&orientation_tracker, gyro_x, gyro_y, gyro_z,
-				state.accel_x, state.accel_y, state.accel_z, &accel_zero, true, event.timestamp * 1000);
+				state.accel_x, state.accel_y, state.accel_z, &accel_zero, true, (event.timestamp_us ? event.timestamp_us : event.timestamp * 1000ULL));
 			break;
 		default:
 			return false;
 	}
-	last_motion_timestamp = event.timestamp * 1000;
+	last_motion_timestamp = (event.timestamp_us ? event.timestamp_us : event.timestamp * 1000ULL);
 	chiaki_orientation_tracker_apply_to_controller_state(&orientation_tracker, &state);
 	return true;
 }
