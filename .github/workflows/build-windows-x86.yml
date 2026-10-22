@@ -33,7 +33,7 @@ jobs:
       - name: Setup Vulkan
         run: |
           $ProgressPreference = 'SilentlyContinue'
-          $ver = (Invoke-WebRequest -Uri "https://vulkan.lunarg.com/sdk/latest.json" | ConvertFrom-Json).windows
+          $ver = "1.4.328.1"  # latest.json dejó de responder en el runner
           echo Version $ver
           Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/$ver/windows/vulkansdk-windows-X64-$ver.exe" -OutFile VulkanSDK.exe
           echo Downloaded
@@ -97,7 +97,8 @@ jobs:
       - name: Setup shaderc
         run: |
           $ProgressPreference = 'SilentlyContinue'
-          $url = ((Invoke-WebRequest -UseBasicParsing -Uri "https://storage.googleapis.com/shaderc/badges/build_link_windows_vs2019_release.html").Content | Select-String -Pattern 'url=(.*)"').Matches.Groups[1].Value
+          # La página badges/..._vs2019_release.html ya no existe y la nueva apunta a un .tgz inexistente.
+          $url = "https://storage.googleapis.com/shaderc/artifacts/prod/graphics_shader_compiler/shaderc/windows-vs2022-amd64-release/continuous/49/20261021-084415/install.zip"
           Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile .\shaderc.zip
           Expand-Archive -LiteralPath "shaderc.zip" -DestinationPath "."
           cp "./install/*" "./${{ env.dep_folder }}" -Force -Recurse
