@@ -16,6 +16,9 @@ jobs:
       dep_folder: deps
       libplacebo_tag: v7.360.1
       sdl2_compat_tag: 2.32.64
+      # windows-latest trae CMake 4, que rechaza cmake_minimum_required < 3.5 (json-c y otros).
+      CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+      VCPKG_KEEP_ENV_VARS: CMAKE_POLICY_VERSION_MINIMUM
 
     defaults:
       run:
