@@ -10,7 +10,7 @@
 
 #define WARMUP_SAMPLES_COUNT 30
 #define BETA_WARMUP 20.0f
-#define BETA_DEFAULT 0.05f
+#define BETA_DEFAULT 0.0f  // sin corrección por gravedad tras la calibración: el giroscopio virtual no deriva
 
 #define ORIENT_FUZZ 0.0f
 #define FUZZ_FILTER_PREV_WEIGHT 0.75f
